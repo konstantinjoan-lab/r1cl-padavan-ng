@@ -1,4 +1,4 @@
-﻿name: Build Padavan NG for R1CL
+name: Build Padavan NG for R1CL
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'

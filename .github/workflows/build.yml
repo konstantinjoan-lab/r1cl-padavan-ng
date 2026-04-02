@@ -1,0 +1,46 @@
+name: Build Padavan NG for R1CL
+
+on:
+  workflow_dispatch:
+
+jobs:
+  dryrun:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check structure
+        run: |
+          test -f configs/board.h
+          test -f configs/partition.map
+          test -f configs/wifi_eeprom.map
+          test -f configs/.config
+          test -f patches/mt7628_led_fix.patch
+          echo "Structure OK"
+
+  build:
+    needs: dryrun
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential gawk flex bison unzip git
+
+      - name: Clone Padavan-NG
+        run: |
+          git clone https://github.com/padavan-ng/padavan-ng.git
+          cp -r configs padavan-ng/trunk/configs/boards/MI-R1CL
+          cp patches/mt7628_led_fix.patch padavan-ng/trunk/user/shared/mt_wifi/mt7628/
+
+      - name: Build firmware
+        run: |
+          cd padavan-ng/trunk
+          fakeroot ./build_firmware.sh MI-R1CL
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v3
+        with:
+          name: R1CL-firmware
+          path: padavan-ng/trunk/images/*.trx

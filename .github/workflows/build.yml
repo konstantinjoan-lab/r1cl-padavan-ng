@@ -29,3 +29,54 @@ jobs:
         with:
           name: R1CL-firmware
           path: padavan-ng/trunk/images/*.trx
+name: Build Padavan NG for R1CL
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your configs
+        uses: actions/checkout@v4
+        
+      - name: Checkout Padavan-NG
+        uses: actions/checkout@v4
+        with:
+          repository: hadzhioglu/padavan-ng
+          path: padavan-ng
+          ref: master
+          
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential gawk flex bison unzip git fakeroot
+          
+      - name: Setup R1CL configuration
+        run: |
+          cd padavan-ng/trunk
+          # Создаём базовый .config для R1CL
+          cat > .config << 'EOF'
+          CONFIG_PRODUCT=MI-R1CL
+          CONFIG_FIRMWARE_PREFIX=MI-R1CL
+          CONFIG_FIRMWARE_INCLUDE_OPENSSL=y
+          CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=y
+          CONFIG_FIRMWARE_INCLUDE_IPV6=y
+          CONFIG_FIRMWARE_INCLUDE_DROPBEAR=y
+          CONFIG_FIRMWARE_INCLUDE_MTD_DEBUG=y
+          CONFIG_FIRMWARE_INCLUDE_LSUSB=y
+          CONFIG_FIRMWARE_INCLUDE_LSPCI=y
+          CONFIG_FIRMWARE_INCLUDE_HTTPS=y
+          EOF
+          
+      - name: Build firmware
+        run: |
+          cd padavan-ng/trunk
+          fakeroot ./build_firmware.sh MI-R1CL
+          
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: R1CL-firmware
+          path: padavan-ng/trunk/images/*.trx

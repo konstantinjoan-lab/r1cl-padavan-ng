@@ -1,0 +1,31 @@
+name: Build Padavan NG for R1CL
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Padavan-NG
+        uses: actions/checkout@v4
+        with:
+          repository: hadzhioglu/padavan-ng
+          path: padavan-ng
+          ref: master
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential gawk flex bison unzip git fakeroot
+
+      - name: Build firmware
+        run: |
+          cd padavan-ng/trunk
+          fakeroot ./build_firmware.sh MI-R1CL
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: R1CL-firmware
+          path: padavan-ng/trunk/images/*.trx

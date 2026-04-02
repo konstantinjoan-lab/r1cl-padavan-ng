@@ -1,4 +1,4 @@
-﻿name: Build Padavan NG for R1CL
+name: Build Padavan NG for R1CL
 
 on:
   workflow_dispatch:
@@ -40,7 +40,7 @@ jobs:
           fakeroot ./build_firmware.sh MI-R1CL
 
       - name: Upload firmware
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: R1CL-firmware
           path: padavan-ng/trunk/images/*.trx

@@ -24,6 +24,13 @@ jobs:
         run: |
           sudo update-alternatives --set fakeroot /usr/bin/fakeroot-tcp 2>/dev/null || true
 
+      - name: Build toolchain
+        run: |
+          cd padavan-ng/toolchain
+          chmod +x clean_sources.sh build_toolchain.sh
+          ./clean_sources.sh
+          ./build_toolchain.sh
+
       - name: Copy configuration for Xiaomi R1CL (Mi Nano)
         run: |
           cd padavan-ng/trunk
@@ -33,6 +40,7 @@ jobs:
       - name: Build firmware
         run: |
           cd padavan-ng/trunk
+          ./clear_tree.sh
           fakeroot ./build_firmware.sh
 
       - name: Upload firmware

@@ -1,0 +1,9 @@
+﻿--- a/mt_wifi/mt7628/mt7628_led.c
++++ b/mt_wifi/mt7628/mt7628_led.c
+@@ -45,7 +45,7 @@
+
+ /* Xiaomi R1CL WiFi LED fix */
+ #ifdef BOARD_MI_R1CL
+-#define WIFI_LED_GPIO 0
++#define WIFI_LED_GPIO 44
+ #endif

@@ -1,4 +1,8 @@
+﻿<<<<<<< HEAD
 name: Build Padavan NG for R1CL
+=======
+﻿name: Build Padavan NG for R1CL
+>>>>>>> 69b0d67 (nitial: add workflow, configs, patches,)
 
 on:
   workflow_dispatch:
@@ -44,3 +48,4 @@ jobs:
         with:
           name: R1CL-firmware
           path: padavan-ng/trunk/images/*.trx
+

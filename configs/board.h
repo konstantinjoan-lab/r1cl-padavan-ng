@@ -1,0 +1,20 @@
+﻿#define BOARD_MI_R1CL
+#define BOARD_NAME "Xiaomi MiWiFi Nano R1CL"
+#define BOARD_DESC "Xiaomi MiWiFi Nano (MT7628N)"
+#define BOARD_VENDOR "Xiaomi"
+#define BOARD_MODEL "R1CL"
+
+#define BOARD_FLASH_SIZE 16
+#define BOARD_RAM_SIZE 64
+
+#define BOARD_HAS_5G 0
+#define BOARD_HAS_USB 0
+
+#define BOARD_GPIO_LED_POWER 44
+#define BOARD_GPIO_LED_INVERTED 1
+
+#define BOARD_GPIO_RESET 38
+#define BOARD_GPIO_RESET_INVERTED 0
+
+#define BOARD_MAC_ADDR_FACTORY_OFFSET 0x4
+#define BOARD_MAC_ADDR_COUNT 3
